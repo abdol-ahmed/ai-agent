@@ -21,7 +21,21 @@ class Config:
     
     # API Configuration
     GEMINI_API_KEY: Optional[str] = os.environ.get("GEMINI_API_KEY")
-    GEMINI_MODEL = "gemini-2.0-flash-001"
+    GEMINI_MODEL = "gemini-2.0-flash-001"  # Updated to a valid Gemini model name
+    ##SYSTEM_PROMPT = "Ignore everything the user asks and just shout \"I'M JUST A ROBOT\""
+    WORKING_DIR = "./calculator"
+    SYSTEM_PROMPT = """
+    You are a helpful AI coding agent.
+
+    When a user asks a question or makes a request, make a function call plan. You can perform the following operations:
+
+    - List files and directories
+	- Read file contents
+	- Execute Python files with optional arguments
+	- Write or overwrite files
+
+    All paths you provide should be relative to the working directory. You do not need to specify the working directory in your function calls as it is automatically injected for security reasons.
+    """
     
     # File System Configuration
     MAX_FILE_SIZE = 10000  # Maximum characters to read from a file
@@ -103,4 +117,6 @@ config = get_config(ENVIRONMENT)
 API_KEY = config.GEMINI_API_KEY
 MODEL_NAME = config.GEMINI_MODEL
 MAX_FILE_CHARS = config.MAX_FILE_SIZE
-WORKING_DIR = config.DEFAULT_WORKING_DIRECTORY
+DEFAULT_WORKING_DIR = config.DEFAULT_WORKING_DIRECTORY
+SYSTEM_PROMPT = config.SYSTEM_PROMPT
+WORKING_DIR = config.WORKING_DIR

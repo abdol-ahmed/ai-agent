@@ -1,5 +1,3 @@
-# calculator.py
-
 class Calculator:
     def __init__(self):
         self.operators = {
@@ -15,10 +13,23 @@ class Calculator:
             "/": 2,
         }
 
+    def _tokenize(self, expression):
+        import re
+        # Tokenize numbers, operators, and parentheses
+        token_pattern = r'\d+\.?\d*|[-+*/%^()]|\S+'
+        tokens = re.findall(token_pattern, expression)
+        return tokens
+
     def evaluate(self, expression):
         if not expression or expression.isspace():
             return None
-        tokens = expression.strip().split()
+            
+        # Clean up the expression by removing all whitespace
+        expression = ''.join(expression.split())
+        
+        # Tokenize the expression
+        tokens = self._tokenize(expression)
+        
         return self._evaluate_infix(tokens)
 
     def _evaluate_infix(self, tokens):
@@ -59,3 +70,7 @@ class Calculator:
         b = values.pop()
         a = values.pop()
         values.append(self.operators[operator](a, b))
+
+calculator = Calculator()
+result = calculator.evaluate("3 + 7 * 2")
+print(result)
